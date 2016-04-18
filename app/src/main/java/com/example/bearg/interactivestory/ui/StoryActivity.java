@@ -1,11 +1,15 @@
-package com.example.bearg.interactivestory;
+package com.example.bearg.interactivestory.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.bearg.interactivestory.R;
+import com.example.bearg.interactivestory.model.Page;
+
 public class StoryActivity extends AppCompatActivity {
+
 
     public static final String TAG = StoryActivity.class.getSimpleName();
 
@@ -20,5 +24,6 @@ public class StoryActivity extends AppCompatActivity {
             name = "Friend";
         }
         Log.d(TAG, name);
+
     }
 }
