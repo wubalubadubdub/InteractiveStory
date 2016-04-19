@@ -32,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Uncomment below line to clear out name when user chooses to play again
+       // mNameField.setText("");
+    }
+
     private void startStory(String str) {
         // keyword "this" is usually used to use the current Activity for a
         // Context, since Activity is a subclass of Context and thus is a Context

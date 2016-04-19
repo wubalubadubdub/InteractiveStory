@@ -24,6 +24,7 @@ public class StoryActivity extends AppCompatActivity {
     private Button mChoice1;
     private Button mChoice2;
     private String mName;
+    private Page mCurrentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,32 +48,59 @@ public class StoryActivity extends AppCompatActivity {
     }
 
     private void loadPage(int choice) {
-        Page page = mStory.getPage(choice);
+         mCurrentPage = mStory.getPage(choice);
         /* Setting the image in the ImageView requires us to call
         setImageDrawable method on it. however, this method requires that
         we pass it a Drawable object. to get that object, we call
-        page.getImageId(), which returns the int given by R.drawable.page#,
-        where # is the number of the page. to actually get a Drawable, we then
-        have to call getResources().getDrawable(int), where int is our R.drawable.page#.
+        mCurrentPage.getImageId(), which returns the int given by R.drawable.mCurrentPage#,
+        where # is the number of the mCurrentPage. to actually get a Drawable, we then
+        have to call getResources().getDrawable(int), where int is our R.drawable.mCurrentPage#.
         This is how you obtain a Drawable object from a resource ID.
          */
-        Drawable drawable = getResources().getDrawable(page.getImageId());
+        Drawable drawable = getResources().getDrawable(mCurrentPage.getImageId());
         mImageView.setImageDrawable(drawable);
 
-        String pageText = page.getText();
+        String pageText = mCurrentPage.getText();
         // Add the name if placeholder included. Won't add if no placeholder.
         pageText = String.format(pageText, mName);
         mTextView.setText(pageText);
 
-        mChoice1.setText(page.getChoice1().getText());
-        mChoice2.setText(page.getChoice2().getText());
+        if (mCurrentPage.isFinal()) {
+            mChoice1.setVisibility(View.INVISIBLE);
+            mChoice2.setText("PLAY AGAIN");
+            mChoice2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
 
-        mChoice1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
+        }
 
-            }
-        });
+        else {
+            mChoice1.setText(mCurrentPage.getChoice1().getText());
+
+            mChoice2.setText(mCurrentPage.getChoice2().getText());
+
+            mChoice1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int nextPage = mCurrentPage.getChoice1().getNextPage();
+                    loadPage(nextPage);
+
+                }
+            });
+
+            mChoice2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int nextPage = mCurrentPage.getChoice2().getNextPage();
+                    loadPage(nextPage);
+
+                }
+            });
+
+        }
     }
 }

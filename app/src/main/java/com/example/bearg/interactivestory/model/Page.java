@@ -17,6 +17,7 @@ public class Page {
     private Choice mChoice2;
     private boolean mIsFinal = false;
 
+    // Constructor used for pages 0-4.
     public Page(int id, String text, Choice c1, Choice c2) {
         mImageId = id;
         mText = text;
@@ -24,6 +25,9 @@ public class Page {
         mChoice2 = c2;
     }
 
+    // Constructor used for pages 5 and 6. Both choices are null
+    // since there's no choices to make at that point, and mIsFinal
+    // becomes true to let us know we've reached an ending
     public Page(int id, String text) {
         mImageId = id;
         mText = text;
